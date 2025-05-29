@@ -73,3 +73,51 @@ bool Library::loadFromFile(const std::string& filename) {
 	}
 	return true;
 }
+
+void Library::searchBookFuzzy(const std::string& keyword, std::ostream& os)const {
+	std::regex pattern(keyword, std::regex::icase);
+	bool found = false;
+	for (const auto& book : books) {
+		if (std::regex_search(book.getTitle(), pattern) ||
+			std::regex_search(book.getAuthor(), pattern)) {
+			book.printInfo(os);
+
+			os << "-----------";
+			 found = true;
+		}
+
+	}
+	if (!found) {
+		os << "没有找到匹配的图书。\n";
+	}
+}
+
+
+
+void Library::searchBookFuzzySimple(std::ostream& os, std::istream& is) {
+	std::string keyword;
+	os << "请输入搜索关键字：";
+	is >> keyword;
+	auto toLower = [](const std::string& str) {
+		std::string result = str;
+		std::transform(result.begin(), result.end(), result.begin(), [](unsigned char c) {return std::tolower(c); });
+		return result;
+		};
+
+	std::string keywordLower = toLower(keyword);
+	bool found = false;
+
+	for (const auto& book : books) {
+		std::string titleLowet = toLower(book.getTitle());
+		std::string authorLower = toLower(book.getAuthor());
+		if (titleLowet.find(keywordLower) != std::string::npos ||
+			authorLower.find(keywordLower) != std::string::npos) {
+			book.printInfo(os);
+			os<< "----------------------\n";
+			found = true;
+		}
+	}
+	if (!found) {
+		os << "没有找到匹配的图书。\n";
+	}
+}

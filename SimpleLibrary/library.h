@@ -4,6 +4,8 @@
 #include<ostream>
 #include<algorithm>
 #include<fstream>
+#include<regex>
+#include<cctype>
 class Library {
 public:
 	Library() = default;
@@ -19,6 +21,10 @@ public:
 
 	bool saveToFile(const std::string& filename)const;//文件保存
 	bool loadFromFile(const std::string& filename);//文件加载
+
+	void searchBookFuzzy(const std::string& keyword, std::ostream &os)const;//模糊搜索
+
+	void searchBookFuzzySimple(std::ostream& os,std::istream& is);
 private:
 	std::vector<Book>books;
 };
