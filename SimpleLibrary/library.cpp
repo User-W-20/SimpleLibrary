@@ -1,7 +1,8 @@
 #include"library.h"
 
-void Library::addBook(const Book& book) {
+void Library::addBook(const Book& book,const std::string & category) {
 	books.push_back(book);
+	categoryBooks[category].insert({ book.getTitle(),Book() });
 }
 
 void Library::printAllBooks(std::ostream& os)const {
@@ -94,10 +95,7 @@ void Library::searchBookFuzzy(const std::string& keyword, std::ostream& os)const
 
 
 
-void Library::searchBookFuzzySimple(std::ostream& os, std::istream& is) {
-	std::string keyword;
-	os << "请输入搜索关键字：";
-	is >> keyword;
+void Library::searchBookFuzzySimple(const std::string&keyword,std::ostream& os) {
 	auto toLower = [](const std::string& str) {
 		std::string result = str;
 		std::transform(result.begin(), result.end(), result.begin(), [](unsigned char c) {return std::tolower(c); });
@@ -108,9 +106,9 @@ void Library::searchBookFuzzySimple(std::ostream& os, std::istream& is) {
 	bool found = false;
 
 	for (const auto& book : books) {
-		std::string titleLowet = toLower(book.getTitle());
+		std::string titleLower = toLower(book.getTitle());
 		std::string authorLower = toLower(book.getAuthor());
-		if (titleLowet.find(keywordLower) != std::string::npos ||
+		if (titleLower.find(keywordLower) != std::string::npos ||
 			authorLower.find(keywordLower) != std::string::npos) {
 			book.printInfo(os);
 			os<< "----------------------\n";
@@ -119,5 +117,23 @@ void Library::searchBookFuzzySimple(std::ostream& os, std::istream& is) {
 	}
 	if (!found) {
 		os << "没有找到匹配的图书。\n";
+	}
+}
+
+void Library::addBookWithCategory(const Book& book, const std::string& category) {
+	books.push_back(book);
+	categoryBooks[category][book.getTitle()] = book;
+}
+
+void Library::printBooksByCategory(const std::string& category, std::ostream& os)const {
+	auto it = categoryBooks.find(category);
+	if (it == categoryBooks.end()) {
+		os << "没有找到该分类。\n";
+		return;
+	}
+	os<< "分类 [" <<category<< "] 下的图书：\n";
+	for (const auto& [title, book] : it->second) {
+		book.printInfo(os);
+		os << "----------------------\n";
 	}
 }

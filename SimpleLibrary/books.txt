@@ -1,0 +1,20 @@
+9787302293286
+C++ Primer
+Stanley Lippman
+电子工业出版社
+88
+9787115546082
+Effective C++
+Scott Meyers
+机械工业出版社
+66
+1234567890
+Python入门
+张三
+清华大学出版社
+59
+9876543210
+思考快与慢
+Daniel Kahneman
+中信出版社
+49

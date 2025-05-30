@@ -1,99 +1,93 @@
-#include<iostream>
+ï»¿#include<iostream>
+#include<sstream>
+#include<limits>
 #include"book.h"
 #include"library.h"
 int main() {
-	/*Book book;
-	book.readInfo(std::cin);
-	book.printInfo(std::cout);*/
-
-	//Library lib;
-	//int count = 0;
-
-	//std::cout << "ÇëÊäÈëÍ¼ÊéÊýÁ¿£º";
-	//std::cin >> count;
-	//std::cin.ignore(); // Çå³ý»»ÐÐ·û
-
-	//for (int i = 0; i < count; ++i) {
-	//	std::cout << "ÊäÈëµÚ " <<(i+1)<< " ±¾Í¼ÊéÐÅÏ¢£º" << std::endl;
-	//	Book book;
-	//	book.readInfo(std::cin);
-	//	lib.addBook(book);
-	//}
-	//std::cout << "\nËùÓÐÍ¼ÊéÐÅÏ¢ÈçÏÂ£º" << std::endl;
-	//	lib.printAllBooks(std::cout);
-	/*Book b1;
-	b1.readInfo(std::cin);
-	lib.addBook(b1);
+	Library lib;
 	
-	std::string keyword;
-	std::cout << "ÇëÊäÈëËÑË÷¹Ø¼ü´Ê£¨ISBN / ×÷Õß / ÊéÃû£©£º\n";
-	std::getline(std::cin, keyword);
-	
-	lib.searchBook(keyword, std::cout);*/
-	//Library lib;
-	/*
-	Book book1, book2;
 
-	std::cout << "ÇëÊäÈëµÚÒ»±¾ÊéÐÅÏ¢£º\n";
-	book1.readInfo(std::cin);
-	lib.addBook(book1);
-
-	std::cout << "ÇëÊäÈëµÚ¶þ±¾ÊéÐÅÏ¢£º\n";
-	book2.readInfo(std::cin);
-	lib.addBook(book2);
-
-	std::cout << "µ±Ç°Í¼Êé¹Ý²ØÊé£º\n";
-	lib.printAllBooks(std::cout);
-
-	std::string targeIsbn;
-	std::cout << "ÇëÊäÈëÒªÉ¾³ýµÄISBN£º";
-	std::getline(std::cin, targeIsbn);
-
-	if (lib.removeBookByISBN(targeIsbn)) {
-		std::cout << "É¾³ý³É¹¦¡£\n";
+	// 1. åŠ è½½æ•°æ®
+	if (lib.loadFromFile("books.txt")) {
+		std::cout << "å›¾ä¹¦æ•°æ®åŠ è½½æˆåŠŸã€‚\n";
 	}
 	else {
-		std::cout << "Î´ÕÒµ½¸ÃISBNµÄÍ¼Êé¡£\n";
+		std::cout << "æœªæ‰¾åˆ°å›¾ä¹¦æ–‡ä»¶ï¼Œå¼€å§‹åˆ›å»ºæ–°åº“ã€‚\n";
 	}
 
-	std::cout << "É¾³ýºóµÄÍ¼ÊéÁÐ±í£º\n";
-	lib.printAllBooks(std::cout);*/
+	// ç®€å•æ¼”ç¤ºï¼šé¢„ç½®æ·»åŠ å‡ æœ¬ä¹¦ï¼ˆå¦‚æžœä½ ä¸å¸Œæœ›é‡å¤æ·»åŠ å¯ä»¥åŠ æ¡ä»¶ï¼‰
+	lib.addBook(Book("9787302293286", "C++ Primer", "Stanley Lippman", "ç”µå­å·¥ä¸šå‡ºç‰ˆç¤¾", 88), "ç¼–ç¨‹");
+	lib.addBook(Book("9787115546082", "Effective C++", "Scott Meyers", "æœºæ¢°å·¥ä¸šå‡ºç‰ˆç¤¾", 66), "ç¼–ç¨‹");
+	lib.addBook(Book("1234567890", "Pythonå…¥é—¨", "å¼ ä¸‰", "æ¸…åŽå¤§å­¦å‡ºç‰ˆç¤¾", 59), "ç¼–ç¨‹");
+	lib.addBook(Book("9876543210", "æ€è€ƒå¿«ä¸Žæ…¢", "Daniel Kahneman", "ä¸­ä¿¡å‡ºç‰ˆç¤¾", 49), "å¿ƒç†å­¦");
 
-	//std::string filename = "books.txt";
+	int choice;
+	do {
+		std::cout << "\n===== å›¾ä¹¦ç®¡ç†ç³»ç»Ÿèœå• =====\n";
+		std::cout << "1. æ‰“å°å…¨éƒ¨å›¾ä¹¦\n";
+		std::cout << "2. ç²¾ç¡®æŸ¥æ‰¾å›¾ä¹¦\n";
+		std::cout << "3. æ¨¡ç³ŠæŸ¥æ‰¾å›¾ä¹¦\n";
+		std::cout << "4. åˆ é™¤å›¾ä¹¦\n";
+		std::cout << "5. æŒ‰åˆ†ç±»æ‰“å°å›¾ä¹¦\n";
+		std::cout << "6. ä¿å­˜å¹¶é€€å‡º\n";
+		std::cout << "è¯·è¾“å…¥é€‰é¡¹ï¼ˆ1-6ï¼‰ï¼š";
 
-	//// ±£´æÍ¼Êé
-	//if (lib.saveToFile(filename)) {
-	//	std::cout << "Í¼ÊéÒÑ±£´æµ½ÎÄ¼þ " << filename << "\n";
-	//}
-	//else {
-	//	std::cout << "±£´æÊ§°Ü\n";
-	//}
+		std::cin >> choice;
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // æ¸…ç©ºè¾“å…¥ç¼“å†²
 
-	//// ¼ÓÔØÍ¼Êé
-	//Library newLib;
-	//if (newLib.loadFromFile(filename)) {
-	//	std::cout << "ÒÑ´ÓÎÄ¼þ¼ÓÔØÍ¼Êé£º\n";
-	//	newLib.printAllBooks(std::cout);
-	//}
-	//else {
-	//	std::cout << "¼ÓÔØÊ§°Ü\n";
-	//}
+		switch (choice){
+		case 1: {
+			std::cout << "\nå½“å‰å›¾ä¹¦åº“å†…å®¹ï¼š\n";
+			lib.printAllBooks(std::cout);
+			break;
+		}
+		case 2: {
+			std::string keyword;
+			std::cout << "\nè¯·è¾“å…¥å…³é”®è¯ï¼ˆISBN/ä¹¦å/ä½œè€…ï¼‰ï¼š";
+			std::getline(std::cin, keyword);
+			lib.searchBook(keyword, std::cout);
+			break;
+		}
+		case 3: {
+			std::string keyword;
+			std::cout << "\nè¯·è¾“å…¥å…³é”®è¯ï¼ˆä¹¦å/ä½œè€…ï¼Œæ¨¡ç³ŠåŒ¹é…ï¼‰ï¼š";
+			std::getline(std::cin, keyword);
+			lib.searchBookFuzzySimple(keyword, std::cout);
+			break;
+		}
+		case 4: {
+			std::string isbn;
+			std::cout << "\nè¯·è¾“å…¥è¦åˆ é™¤çš„å›¾ä¹¦ISBNï¼š";
+			std::getline(std::cin, isbn);
+			if (lib.removeBookByISBN(isbn)) {
+				std::cout << "å›¾ä¹¦åˆ é™¤æˆåŠŸã€‚\n";
+			}
+			else {
+				std::cout << "æœªæ‰¾åˆ°å›¾ä¹¦ã€‚\n";
+			}
+			break;
+		}
+		case 5: {
+			std::string category;
+			std::cout << "\nè¯·è¾“å…¥åˆ†ç±»åï¼š";
+			std::getline(std::cin, category);
+			lib.printBooksByCategory(category, std::cout);
+			break;
+		}
+		case 6: {
+			if (lib.saveToFile("books.txt")) {
+				std::cout << "å›¾ä¹¦ä¿å­˜æˆåŠŸï¼Œç¨‹åºé€€å‡ºã€‚\n";
+			}
+			else {
+				std::cout << "ä¿å­˜å¤±è´¥ï¼Œç¨‹åºé€€å‡ºã€‚\n";
+			}
+			break;
+		}
+		default:
+			std::cout << "æ— æ•ˆçš„é€‰é¡¹ï¼Œè¯·é‡æ–°è¾“å…¥ã€‚\n";
+			break;
+		}
+	} while (choice != 6);
 
-	/*lib.addBook(Book("9787302293286", "C++ Primer", "Stanley Lippman", "µç×Ó¹¤Òµ³ö°æÉç", 88.00));
-	lib.addBook(Book("9787115546082", "Effective C++", "Scott Meyers", "»úÐµ¹¤Òµ³ö°æÉç", 66.00));
-	lib.addBook(Book("1234567890", "PythonÈëÃÅ", "ÕÅÈý", "Çå»ª´óÑ§³ö°æÉç", 59.00));*/
-
-	/*std::cout << "Ä£ºýËÑË÷£ºÊäÈë 'c\\+\\+'£¨Æ¥Åä C++ Primer£©\n";
-	lib.searchBookFuzzy("c\\+\\+", std::cout);
-
-	std::cout << "\nÄ£ºýËÑË÷£ºÊäÈë 'Scott'£¨Æ¥Åä×÷Õß£©\n";
-	lib.searchBookFuzzy("Scott", std::cout);
-
-	std::cout << "\nÄ£ºýËÑË÷£ºÊäÈë 'ÈëÃÅ'£¨Æ¥ÅäÖÐÎÄ£©\n";
-	lib.searchBookFuzzy("ÈëÃÅ", std::cout);
-
-	std::cout << "\nÄ£ºýËÑË÷£ºÊäÈë 'Java'£¨ÎÞÆ¥Åä£©\n";*/
-	//lib.searchBookFuzzy("Java", std::cout);
-	//lib.searchBookFuzzySimple(std::cout, std::cin);
 	return 0;
 }
